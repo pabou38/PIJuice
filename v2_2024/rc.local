@@ -1,0 +1,46 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP\n"
+fi
+
+# systemctl status rc.local.service shows hwclock error. too early ? driver seem to be there lsmod
+# then rc.local fails and beecamjuice not called.  so done in code
+#printf "setting date from RTC\n"
+#sudo hwclock -s
+
+
+####################
+# start app at boot
+####################
+
+# use systemctl no sleep or rc ?  unstability with systemd
+# cd as .py as import in ..
+cd /home/pi/beecamjuice
+LOG=logs/juice_rc.log
+
+echo "rc: " $(date) >> $LOG 2>&1
+
+printf "running bee cam juice in background\n" >> $LOG
+# redirect stdout will fill disk, but allow to show exception not caugth by app
+# -l, -n
+./beecamjuice.py -n >/dev/null 2>>$LOG  &
+
+
+#printf "running juice wakeup test\n" >> $LOG
+#/home/pi/my_modules/my_juice.py >> $LOG 2>&1 &
+
+exit 0
