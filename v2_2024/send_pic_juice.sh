@@ -118,14 +118,10 @@ echo "take pic"
 fswebcam -S 3 -D 1 -F 2 -p MJPEG --flip v --title "PIJuice" --subtitle "meaudre" --info "Pabou"  -r 1920x1080 $temp/$file
 
 # save pic in ftp. deprecated
-#wput  $temp/$file ftp://pascal.boudal:zero00@ftpperso.free.fr/meaudre/$file
-
 
 # send temp to domoticz. deprecated
 # echo "send temp"
 # DOMOTICZ w/ password
-#/usr/bin/curl -s "paboupicloud.zapto.org:13880/json.htm?username=bWVhdWRyZQ==&password=YXV0cmFucw==&type=command&param=udevice&idx=54&nvalue=0&svalue=$a" ;
-
 
 
 ######################
@@ -170,7 +166,7 @@ echo "trying scp for first time"
 #if [[ $ssid == Apple* ]];  then
 if [[ $ssid == Freebox* ]];  then
  echo "from rudlap ; immeuble en S. use dns"
- scp $file root@paboupicloud.zapto.org:/var/www/meaudre
+ scp $file root@xxxx:/var/www/meaudre
 
 else
  echo "NOT from rudla; immeuble en S. use local IP"
@@ -206,7 +202,7 @@ while [ $? -ne 0 ]; do
 #	if [[ $ssid == Apple* ]];  then
 	if [[ $ssid == Freebox* ]];  then
 	echo "retry from rudlap; immeuble en S"
-	scp $file root@paboupicloud.zapto.org:/var/www/meaudre 
+	scp $file root@xxxxx:/var/www/meaudre 
 	else
 	echo "retry NOT from rudla; immeuble en S"
 	scp $file root@192.168.1.206:/var/www/meaudre 
